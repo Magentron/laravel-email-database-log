@@ -1,5 +1,5 @@
 {
-    "name": "shvetsgroup/laravel-email-database-log",
+    "name": "magentron/laravel-email-database-log",
     "description": "A simple database logger for all outgoing emails sent by Laravel website.",
     "keywords": ["laravel", "markdown", "mail"],
     "license": "MIT",
@@ -14,18 +14,22 @@
             "role": "Developer"
         }
     ],
+    "replace": {
+        "shvetsgroup/laravel-email-database-log": "10.0.0"
+    },
     "require": {
-        "php": "^8.0.2",
-        "illuminate/support": "^9.0",
-        "doctrine/dbal": "^3.3",
-        "nesbot/carbon": "^2.0"
+        "php": "^8.0.2|^8.1|^8.2",
+        "illuminate/support": "^8.5|^9.0|^10.0|^11.0",
+        "doctrine/dbal": "^3.6",
+        "nesbot/carbon": "^2.66"
     },
     "require-dev": {
-        "orchestra/testbench": "^7.0",
-        "phpunit/phpunit": "^9.0"
+        "orchestra/testbench": "^7.0|^8.0|^9.0",
+        "phpunit/phpunit": "^9.0|^10.0",
+        "vimeo/psalm": "^5"
     },
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "ShvetsGroup\\LaravelEmailDatabaseLog\\": "src/"
         }
     },

@@ -15,6 +15,8 @@ class EmailLogger
 	 *
 	 * @param MessageSending $event
 	 * @return void
+     *
+     * @psalm-suppress PossiblyUnusedMethod
 	 */
 	public function handle(MessageSending $event): void
 	{

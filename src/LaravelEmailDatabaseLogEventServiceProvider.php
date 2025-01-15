@@ -7,11 +7,7 @@ use Illuminate\Mail\Events\MessageSending;
 
 class LaravelEmailDatabaseLogEventServiceProvider extends ServiceProvider
 {
-    /**
-     * The event listener mappings for the application.
-     *
-     * @var array
-     */
+    /** @inheritdoc */
     protected $listen = [
         MessageSending::class => [
             EmailLogger::class,
