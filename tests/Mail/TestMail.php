@@ -3,13 +3,13 @@
 namespace ShvetsGroup\LaravelEmailDatabaseLog\Tests\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 class TestMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new message instance.
@@ -18,7 +18,7 @@ class TestMail extends Mailable
      */
     public function __construct()
     {
-        //
+
     }
 
     /**
@@ -29,7 +29,7 @@ class TestMail extends Mailable
     public function build()
     {
         return $this
-	        ->subject('The e-mail subject')
-	        ->html('<p>Some random string.</p>');
+            ->subject('The e-mail subject')
+            ->html('<p>Some random string.</p>');
     }
 }
