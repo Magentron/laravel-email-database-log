@@ -55,11 +55,11 @@ class EmailLogger
     protected function insertMessageSending(Email $message): void
     {
         // determine the data to insert, including a hash for the message content
-        $hashData         = $this->buildMessageData($message);
-        $hash             = $this->hashMessageData($hashData);
-        $hashData['hash'] = $hash;
+        $messageData         = $this->buildMessageData($message);
+        $hash                = $this->hashMessageData($messageData);
+        $messageData['hash'] = $hash;
 
-        DB::table('email_log')->insert($hashData);
+        DB::table('email_log')->insert($messageData);
     }
 
     /**
@@ -70,8 +70,8 @@ class EmailLogger
      */
     protected function updateMessageSent(SentMessage $message): void
     {
-        $hashData = $this->buildMessageData($message);
-        $hash     = $this->hashMessageData($hashData);
+        $messageData = $this->buildMessageData($message);
+        $hash        = $this->hashMessageData($messageData);
 
         // first find the last message that matches the hash within the last 24 hours
         $query = DB::table('email_log')->where('hash', $hash)
@@ -90,6 +90,7 @@ class EmailLogger
 
         // update the record with the message ID and sent_at
         $updates = [
+            'headers'    => $messageData['headers'],
             'message_id' => $message->getMessageId(),
             'sent_at'    => Carbon::now(),
         ];
@@ -146,15 +147,18 @@ class EmailLogger
     /**
      * Determine the hash for the data of a message.
      *
-     * @param  array  $hashData
+     * @param  array  $messageData
      * @return string
      */
-    protected function hashMessageData(array $hashData): string
+    protected function hashMessageData(array $messageData): string
     {
         // use only constant headers for hash
-        $hashData['headers'] = preg_replace('/^(?!(?:Bcc|Cc|From|Subject|To):).*?\r\n/Smi', '', $hashData['headers']);
+        $messageData['headers'] = preg_replace('/^(?!(?:Bcc|Cc|From|Subject|To):).*?\r\n/Smi', '', $messageData['headers']);
 
-        return sha1(serialize($hashData));
+        // date may be different between sending and sent events
+        unset($messageData['date']);
+
+        return sha1(serialize($messageData));
     }
 
     /**
