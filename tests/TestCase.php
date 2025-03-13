@@ -23,6 +23,15 @@ class TestCase extends \Orchestra\Testbench\TestCase
         (new \AddMessageHashId())->up();
     }
 
+    /** @codeCoverageIgnore */
+    public static function booleans(): array
+    {
+        return [
+            [false],
+            [true ],
+        ];
+    }
+
     protected function getPackageProviders($app)
     {
         return [

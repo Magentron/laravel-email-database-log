@@ -9,7 +9,6 @@ use Illuminate\Mail\SentMessage;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Header\Headers;
-use Symfony\Component\Mime\Message;
 use Symfony\Component\Mime\Part\DataPart;
 
 class EmailLogger
@@ -36,8 +35,8 @@ class EmailLogger
     /**
      * Format address strings for sender, to, cc, bcc.
      *
-     * @param  Email       $message
-     * @param  string      $field
+     * @param  Email|SentMessage $message
+     * @param  string            $field
      * @return string|null
      */
     public function formatAddressField(Email|SentMessage $message, string $field): ?string
@@ -152,6 +151,9 @@ class EmailLogger
      */
     protected function hashMessageData(array $hashData): string
     {
+        // use only constant headers for hash
+        $hashData['headers'] = preg_replace('/^(?!(?:Bcc|Cc|From|Subject|To):).*?\r\n/Smi', '', $hashData['headers']);
+
         return sha1(serialize($hashData));
     }
 
